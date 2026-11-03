@@ -1,0 +1,206 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String         @id @default(uuid()) @db.Uuid
+  email         String         @unique
+  passwordHash  String
+  role          UserRole
+  profileData   Json
+  departmentId  String?        @db.Uuid
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  assignedTasks Incident[]     @relation("StaffTasks")
+  incidents     Incident[]     @relation("CitizenIncidents")
+  notifications Notification[]
+  timelines     TaskTimeline[]
+  department    Department?    @relation(fields: [departmentId], references: [id])
+
+  @@index([email])
+}
+
+model Department {
+  id            String         @id @default(uuid()) @db.Uuid
+  name          String
+  code          String         @unique
+  staffCount    Int            @default(0)
+  workload      String         @default("Medium")
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  incidents     Incident[]
+  resourcePools ResourcePool[]
+  users         User[]
+
+  @@index([code])
+}
+
+model Incident {
+  id                    String                   @id @default(uuid()) @db.Uuid
+  incidentCode          String                   @unique
+  citizenId             String                   @db.Uuid
+  departmentId          String?                  @db.Uuid
+  assignedStaffId       String?                  @db.Uuid
+  category              String
+  description           String
+  location              String
+  latitude              Float?
+  longitude             Float?
+  status                IncidentStatus           @default(Pending)
+  currentStage          Int                      @default(1)
+  severity              String                   @default("Medium")
+  priority              String                   @default("Medium")
+  createdAt             DateTime                 @default(now())
+  assignmentDate        DateTime?
+  resolutionDate        DateTime?
+  resolutionDescription String?
+  aiConfidence          String?
+  rootCause             String?
+  impactScore           Int?
+  citizenConfirmed      Boolean                  @default(false)
+  insights              AIInsight[]
+  crossDeptRequests     CrossDepartmentRequest[]
+  evidence              Evidence[]
+  assignedStaff         User?                    @relation("StaffTasks", fields: [assignedStaffId], references: [id])
+  citizen               User                     @relation("CitizenIncidents", fields: [citizenId], references: [id])
+  department            Department?              @relation(fields: [departmentId], references: [id])
+  notifications         Notification[]
+  timeline              TaskTimeline[]
+  clusters              IncidentCluster[]        @relation("IncidentToIncidentCluster")
+
+  @@index([status])
+  @@index([currentStage])
+  @@index([incidentCode])
+}
+
+model Evidence {
+  id         String       @id @default(uuid()) @db.Uuid
+  incidentId String       @db.Uuid
+  url        String
+  uploadedBy String       @db.Uuid
+  timestamp  DateTime     @default(now())
+  type       EvidenceType @default(INITIAL)
+  note       String?
+  incident   Incident     @relation(fields: [incidentId], references: [id])
+
+  @@index([incidentId])
+}
+
+model Notification {
+  id         String               @id @default(uuid()) @db.Uuid
+  userId     String               @db.Uuid
+  incidentId String?              @db.Uuid
+  title      String
+  message    String
+  category   NotificationCategory @default(Progress)
+  isRead     Boolean              @default(false)
+  createdAt  DateTime             @default(now())
+  incident   Incident?            @relation(fields: [incidentId], references: [id])
+  user       User                 @relation(fields: [userId], references: [id])
+
+  @@index([userId])
+}
+
+model TaskTimeline {
+  id         String   @id @default(uuid()) @db.Uuid
+  incidentId String   @db.Uuid
+  userId     String   @db.Uuid
+  action     String
+  note       String?
+  timestamp  DateTime @default(now())
+  incident   Incident @relation(fields: [incidentId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@index([incidentId])
+}
+
+model AssignmentHistory {
+  id         String   @id @default(uuid()) @db.Uuid
+  incidentId String   @db.Uuid
+  userId     String   @db.Uuid
+  action     String
+  timestamp  DateTime @default(now())
+}
+
+model CrossDepartmentRequest {
+  id         String   @id @default(uuid()) @db.Uuid
+  incidentId String   @db.Uuid
+  fromDeptId String   @db.Uuid
+  toDeptId   String   @db.Uuid
+  status     String   @default("Pending")
+  createdAt  DateTime @default(now())
+  incident   Incident @relation(fields: [incidentId], references: [id])
+}
+
+model ResourcePool {
+  id           String     @id @default(uuid()) @db.Uuid
+  departmentId String     @db.Uuid
+  personnel    Int        @default(0)
+  vehicles     Int        @default(0)
+  equipment    Int        @default(0)
+  updatedAt    DateTime   @updatedAt
+  department   Department @relation(fields: [departmentId], references: [id])
+}
+
+model IncidentCluster {
+  id         String     @id @default(uuid()) @db.Uuid
+  category   String
+  area       String
+  confidence String
+  status     String
+  reason     String
+  createdAt  DateTime   @default(now())
+  incidents  Incident[] @relation("IncidentToIncidentCluster")
+}
+
+model AIInsight {
+  id          String   @id @default(uuid()) @db.Uuid
+  incidentId  String   @db.Uuid
+  insightType String
+  content     String
+  confidence  String
+  createdAt   DateTime @default(now())
+  incident    Incident @relation(fields: [incidentId], references: [id])
+}
+
+model ChatMessage {
+  id        String   @id @default(uuid()) @db.Uuid
+  userId    String   @db.Uuid
+  content   String
+  role      String
+  timestamp DateTime @default(now())
+}
+
+model SystemSettings {
+  key   String @id
+  value Json
+}
+
+enum UserRole {
+  CITIZEN
+  OFFICER
+  STAFF
+}
+
+enum IncidentStatus {
+  Pending
+  InProgress
+  Resolved
+  Closed
+}
+
+enum EvidenceType {
+  INITIAL
+  PROGRESS
+  RESOLUTION
+}
+
+enum NotificationCategory {
+  Progress
+  Announcement
+}

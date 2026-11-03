@@ -1,0 +1,29 @@
+{
+    "precision": 0.8980899228665418,
+    "recall": 0.34304369919348016,
+    "mAP50": 0.3949543284728265,
+    "mAP50-95": 0.22365136507618838,
+    "inference_time_per_image": 0.056124100003701945,
+    "per_class": {
+        "D00 - Longitudinal Crack": {
+            "precision": 1.0,
+            "recall": 0.0,
+            "mAP50": 0.06125
+        },
+        "D10 - Transverse Crack": {
+            "precision": 1.0,
+            "recall": 0.0,
+            "mAP50": 0.017646065518405942
+        },
+        "D20 - Alligator Crack": {
+            "precision": 0.5923596914661673,
+            "recall": 0.4444444444444444,
+            "mAP50": 0.5059212483729003
+        },
+        "D40 - Pothole": {
+            "precision": 1.0,
+            "recall": 0.9277303523294762,
+            "mAP50": 0.995
+        }
+    }
+}

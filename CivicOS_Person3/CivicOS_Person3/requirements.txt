@@ -1,0 +1,29 @@
+# CivicOS - Person 3: Predictive Intelligence & Urban Risk Engine
+# Core Dependencies
+
+# API Framework & Server
+fastapi>=0.110.0
+uvicorn[standard]>=0.28.0
+pydantic>=2.6.0
+python-multipart>=0.0.9
+
+# Data Processing & Numerical Computing
+pandas>=2.2.0
+numpy>=1.26.0
+
+# Geospatial Analysis & Mapping
+geopandas>=0.14.0
+shapely>=2.0.0
+
+# Network & Graph Analysis
+networkx>=3.2.0
+
+# Machine Learning & Predictive Modeling
+scikit-learn>=1.4.0
+
+# Interactive Visualization & Dashboard
+streamlit>=1.32.0
+plotly>=5.20.0
+
+# HTTP & Utility
+requests>=2.31.0

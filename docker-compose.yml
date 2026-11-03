@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  ai-engine:
+    build:
+      context: ./CivicOS
+      dockerfile: Dockerfile
+    container_name: civicos-ai-engine
+    ports:
+      - "8000:8000"
+    environment:
+      - FASTAPI_HOST=0.0.0.0
+      - FASTAPI_PORT=8000
+      - CIVICOS_REQUIRE_AUTH=${CIVICOS_REQUIRE_AUTH:-false}
+      - SUPABASE_JWT_SECRET=${SUPABASE_JWT_SECRET:-}
+      - SUPABASE_SERVICE_ROLE_KEY=${SUPABASE_SERVICE_ROLE_KEY:-}
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: ./backend/backend
+      dockerfile: Dockerfile
+    container_name: civicos-express-backend
+    ports:
+      - "5000:5000"
+    environment:
+      - PORT=5000
+      - DATABASE_URL=postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-postgres}@postgres:5432/${POSTGRES_DB:-civicos}?schema=public
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+    depends_on:
+      - postgres
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: civicos-postgres
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+      - POSTGRES_DB=${POSTGRES_DB:-civicos}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./civicos_person1/civicos
+      dockerfile: Dockerfile
+    container_name: civicos-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - ai-engine
+      - backend
+    restart: unless-stopped
+
+volumes:
+  pgdata:

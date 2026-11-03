@@ -1,0 +1,42 @@
+{
+  "Scenario 1": {
+    "name": "Pothole Complaint Submission & AI Processing",
+    "status": "PASS",
+    "details": "Report CIV-TEST-POTHOLE-1 processed. Verification status: needs_review. Urban detections: 0."
+  },
+  "Scenario 2": {
+    "name": "Road Crack Complaint (Urban + RDD)",
+    "status": "PASS",
+    "details": "Verification: needs_review. RDD detections count: 0. Urban detections: 0."
+  },
+  "Scenario 3": {
+    "name": "Litter Complaint (Mini-TACO50 Detector)",
+    "status": "PASS",
+    "details": "Litter detector status: success, total litter items: 0. Urban detector run."
+  },
+  "Scenario 4": {
+    "name": "Incorrect Complaint Category (Mismatch Handling)",
+    "status": "PASS",
+    "details": "Reported: Animal. Image: Pothole. Verification Status: needs_review. Explanation: No incidents detected in the image.."
+  },
+  "Scenario 5": {
+    "name": "Potential Duplicate Incident Detection",
+    "status": "PASS",
+    "details": "Duplicate recommendation: duplicate. Report IDs grouped: ['CIV-TEST-POTHOLE-1', 'CIV-EXISTING-001', 'CIV-DUPLICATE-002']."
+  },
+  "Scenario 6": {
+    "name": "Complaint Status Tracking Interface Integration",
+    "status": "PASS",
+    "details": "Verified complaint payload has tracking lifecycle stages (Report Submitted -> AI Verification -> Assigned -> Completed -> Resolution Verified)."
+  },
+  "Scenario 7": {
+    "name": "Resolution Verification (Before vs After Evidence)",
+    "status": "PASS",
+    "details": "Resolution status: needs_review. Confidence: 0.5. Reason: Visual evidence is inconclusive or viewpoint changed too significantly.."
+  },
+  "Scenario 8": {
+    "name": "Failure & Edge Case Handling",
+    "status": "PASS",
+    "details": "Non-image upload rejected with HTTP 400. Unsupported category routed to 'needs_review'. Corrupt/empty inputs handled gracefully without server crash."
+  }
+}

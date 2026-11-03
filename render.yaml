@@ -1,0 +1,90 @@
+# ==============================================================================
+# CivicOS — Render Infrastructure-as-Code (IaC) Blueprint
+# ==============================================================================
+
+services:
+  # 1. Person 4: Node/Express Core Backend
+  - type: web
+    name: civicos-backend
+    env: node
+    plan: standard
+    buildCommand: "cd backend/backend && npm ci && npx prisma generate && npm run build"
+    startCommand: "cd backend/backend && npm start"
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: PORT
+        value: 5000
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: civicos-db
+          property: connectionString
+      - key: FRONTEND_ORIGIN
+        value: "https://civicos.vercel.app,http://localhost:5173"
+      - key: PERSON2_AI_URL
+        fromService:
+          type: web
+          name: civicos-ai-engine
+          property: host
+      - key: PERSON3_PREDICTIVE_URL
+        fromService:
+          type: web
+          name: civicos-predictive-engine
+          property: host
+      - key: JWT_SECRET
+        generateValue: true
+
+  # 2. Person 2: AI Computer Vision Engine
+  - type: web
+    name: civicos-ai-engine
+    env: python
+    plan: standard
+    buildCommand: "pip install -r CivicOS/ai_engine/requirements.txt"
+    startCommand: "cd CivicOS && uvicorn ai_engine.main:app --host 0.0.0.0 --port 8000"
+    healthCheckPath: /health
+    envVars:
+      - key: FASTAPI_PORT
+        value: 8000
+      - key: ACTIVE_MODEL_KEY
+        value: "v1_3class"
+      - key: CIVICOS_REQUIRE_AUTH
+        value: "false"
+
+  # 3. Person 3: Predictive Intelligence Engine
+  - type: web
+    name: civicos-predictive-engine
+    env: python
+    plan: standard
+    buildCommand: "pip install -r CivicOS_Person3/CivicOS_Person3/requirements.txt"
+    startCommand: "cd CivicOS_Person3/CivicOS_Person3 && uvicorn main:app --host 0.0.0.0 --port 8001"
+    healthCheckPath: /health
+    envVars:
+      - key: PORT
+        value: 8001
+      - key: CORS_ORIGINS
+        value: "*"
+
+  # 4. Person 1: React + Vite Frontend (Static Site alternative to Vercel)
+  - type: static
+    name: civicos-frontend
+    buildCommand: "cd civicos_person1/civicos && npm ci && npm run build"
+    staticPublishPath: "./civicos_person1/civicos/dist"
+    routes:
+      - type: rewrite
+        source: "/*"
+        destination: "/index.html"
+    envVars:
+      - key: VITE_BACKEND_API_URL
+        fromService:
+          type: web
+          name: civicos-backend
+          property: host
+
+databases:
+  # 5. PostgreSQL Database
+  - name: civicos-db
+    plan: standard
+    databaseName: civicos
+    user: postgres
+    region: oregon

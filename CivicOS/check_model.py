@@ -1,0 +1,1 @@
+from ai_engine.common.config import ACTIVE_MODEL_KEY; from ai_engine.detection.detect import IncidentDetector; det = IncidentDetector(); print(f"Active Key: {ACTIVE_MODEL_KEY}"); print(f"Classes: {det.model.names}")

@@ -1,0 +1,425 @@
+{
+  "total": 24,
+  "passed": 24,
+  "failed": 0,
+  "timestamp": "2026-11-03T10:20:33Z",
+  "results": [
+    {
+      "step": 1,
+      "name": "PostgreSQL Database Connection & Backend Health",
+      "status": "PASS",
+      "details": {
+        "status": "connected",
+        "engine": "PostgreSQL 18.6 (Embedded)",
+        "host": "localhost:5432",
+        "database": "civicos",
+        "liveIncidentsInDB": 20,
+        "liveDepartmentsInDB": 8,
+        "fallbackActive": false
+      },
+      "error": null
+    },
+    {
+      "step": 2,
+      "name": "Municipal Overview KPI Statistics (from PostgreSQL)",
+      "status": "PASS",
+      "details": {
+        "totalIncidents": 20,
+        "pendingComplaints": 11,
+        "resolvedComplaints": 9,
+        "criticalIncidents": 8,
+        "highPriorityIncidents": 5,
+        "underInvestigation": 4,
+        "awaitingAssignment": 6,
+        "avgResolutionTimeHours": 14.4,
+        "recentIncidents": [
+          {
+            "id": "dd9ca648-183f-4774-a50c-43e6ab59e588",
+            "incidentCode": "INC-AUDIT-OFFICER-1418",
+            "citizenId": "a1000000-0000-0000-0000-000000000001",
+            "departmentId": "d1000000-0000-0000-0000-000000000001",
+            "assignedStaffId": null,
+            "category": "Pothole",
+            "description": "Officer Audit Test: Large arterial crater on MG Road Junction creating hazard.",
+            "location": "MG Road & 4th Cross, Ward 14",
+            "latitude": 12.9716,
+            "longitude": 77.5946,
+            "status": "Resolved",
+            "currentStage": 3,
+            "severity": "High",
+            "priority": "Critical",
+            "createdAt": "2026-11-03T04:50:18.296Z",
+            "assignmentDate": "2026-11-03T04:50:19.348Z",
+            "resolutionDate": "2026-11-03T04:50:19.585Z",
+            "resolutionDescription": "Pothole filled with hot mix asphalt, vibratory rolled, and sealed. Road safe for traffic.",
+            "aiConfidence": "89%",
+            "rootCause": "Predicted Risk: MODERATE PROPAGATION RISK. Top Driver: affected_population.",
+            "impactScore": 47,
+            "citizenConfirmed": false,
+            "department": {
+              "name": "Roads & Infrastructure",
+              "code": "ROADS"
+            }
+          },
+          {
+            "id": "06f99931-1e0b-4d2c-b71b-d0f02c31c86b",
+            "incidentCode": "CIV-5393",
+            "citizenId": "a1000000-0000-0000-0000-000000000001",
+            "departmentId": null,
+            "assignedStaffId": null,
+            "category": "Garbage and Waste Management",
+            "description": "A garbage",
+            "location": "Near 12.9710, 77.6094",
+            "latitude": null,
+            "longitude": null,
+            "status": "InProgress",
+            "currentStage": 3,
+            "severity": "Medium",
+            "priority": "Medium",
+            "createdAt": "2026-11-03T04:20:14.071Z",
+            "assignmentDate": null,
+            "resolutionDate": null,
+            "resolutionDescription": null,
+            "aiConfidence": "30%",
+            "rootCause": null,
+            "impactScore": null,
+            "citizenConfirmed": false,
+            "department": null
+          },
+          {
+            "id": "fd6281ca-44e8-4d8f-afeb-9e4d5da54262",
+            "incidentCode": "INC-AUDIT-OFFICER-7036",
+            "citizenId": "a1000000-0000-0000-0000-000000000001",
+            "departmentId": "d1000000-0000-0000-0000-000000000001",
+            "assignedStaffId": null,
+            "category": "Pothole",
+            "description": "Officer Audit Test: Large arterial crater on MG Road Junction creating hazard.",
+            "location": "MG Road & 4th Cross, Ward 14",
+            "latitude": 12.9716,
+            "longitude": 77.5946,
+            "status": "Resolved",
+            "currentStage": 3,
+            "severity": "High",
+            "priority": "Critical",
+            "createdAt": "2026-11-03T03:37:16.653Z",
+            "assignmentDate": "2026-11-03T03:37:17.684Z",
+            "resolutionDate": "2026-11-03T04:27:09.410Z",
+            "resolutionDescription": "Cleaned",
+            "aiConfidence": "89%",
+            "rootCause": "Predicted Risk: MODERATE PROPAGATION RISK. Top Driver: affected_population.",
+            "impactScore": 47,
+            "citizenConfirmed": false,
+            "department": {
+              "name": "Roads & Infrastructure",
+              "code": "ROADS"
+            }
+          },
+          {
+            "id": "08f94471-793d-4704-9bfc-d311712b7ed9",
+            "incidentCode": "CIV-4224",
+            "citizenId": "a1000000-0000-0000-0000-000000000001",
+            "departmentId": null,
+            "assignedStaffId": null,
+            "category": "Roads and Potholes",
+            "description": "A huge hole",
+            "location": "Near 12.9565, 77.6140",
+            "latitude": null,
+            "longitude": null,
+            "status": "Pending",
+            "currentStage": 2,
+            "severity": "High",
+            "priority": "Medium",
+            "createdAt": "2026-11-03T02:57:18.190Z",
+            "assignmentDate": null,
+            "resolutionDate": null,
+            "resolutionDescription": null,
+            "aiConfidence": "31%",
+            "rootCause": null,
+            "impactScore": null,
+            "citizenConfirmed": false,
+            "department": null
+          },
+          {
+            "id": "a4f48ebc-dc2a-48fe-9544-31ef5efa8e15",
+            "incidentCode": "INC-3471",
+            "citizenId": "a1000000-0000-0000-0000-000000000001",
+            "departmentId": "d2000000-0000-0000-0000-000000000002",
+            "assignedStaffId": null,
+            "category": "Waste container",
+            "description": "Public dumpster overflowing on Park Street verified by CivicOS AI.",
+            "location": "Park Street Corner",
+            "latitude": 12.972,
+            "longitude": 77.595,
+            "status": "Pending",
+            "currentStage": 1,
+            "severity": "Medium",
+            "priority": "MEDIUM",
+            "createdAt": "2026-11-03T01:49:51.046Z",
+            "assignmentDate": null,
+            "resolutionDate": null,
+            "resolutionDescription": null,
+            "aiConfidence": "42%",
+            "rootCause": null,
+            "impactScore": null,
+            "citizenConfirmed": false,
+            "department": {
+              "name": "Solid Waste Management",
+              "code": "SAN"
+            }
+          },
+          {
+            "id": "4ddce3b5-451e-421d-af81-0807c05b6d08",
+            "incidentCode": "INC-4369",
+            "citizenId": "a1000000-0000-0000-0000-000000000001",
+            "departmentId": "d1000000-0000-0000-0000-000000000001",
+            "assignedStaffId": null,
+            "category": "Pothole",
+            "description": "Verified road pothole detected by active YOLO model with 64% confidence.",
+            "location": "MG Road near Trinity Metro Station",
+            "latitude": 12.9716,
+            "longitude": 77.5946,
+            "status": "Pending",
+            "currentStage": 1,
+            "severity": "High",
+            "priority": "HIGH",
+            "createdAt": "2026-11-03T01:48:46.649Z",
+            "assignmentDate": null,
+            "resolutionDate": null,
+            "resolutionDescription": null,
+            "aiConfidence": "64%",
+            "rootCause": "Predicted Risk: MODERATE PROPAGATION RISK. Top Driver: affected_population.",
+            "impactScore": 47,
+            "citizenConfirmed": false,
+            "department": {
+              "name": "Roads & Infrastructure",
+              "code": "ROADS"
+            }
+          }
+        ],
+        "source": "database"
+      },
+      "error": null
+    },
+    {
+      "step": 3,
+      "name": "Department Workload Breakdown",
+      "status": "PASS",
+      "details": {
+        "departmentCount": 8
+      },
+      "error": null
+    },
+    {
+      "step": 4,
+      "name": "Ward Distribution Analysis",
+      "status": "PASS",
+      "details": {
+        "wardCount": 6
+      },
+      "error": null
+    },
+    {
+      "step": 5,
+      "name": "Incident Retrieval from PostgreSQL",
+      "status": "PASS",
+      "details": {
+        "totalIncidents": 20
+      },
+      "error": null
+    },
+    {
+      "step": 6,
+      "name": "Create Designated Audit Test Incident",
+      "status": "PASS",
+      "details": {
+        "id": "bb34fc8c-de5e-478f-806e-3fdbf5ad5b3a",
+        "code": "INC-AUDIT-OFFICER-1431"
+      },
+      "error": null
+    },
+    {
+      "step": 7,
+      "name": "Incident Details Retrieval",
+      "status": "PASS",
+      "details": {
+        "code": "INC-AUDIT-OFFICER-1431",
+        "status": "Pending"
+      },
+      "error": null
+    },
+    {
+      "step": 8,
+      "name": "Person 2 AI Vision Detection & Verification",
+      "status": "PASS",
+      "details": {
+        "orchestrator_processed": true,
+        "category": null,
+        "verification_status": "needs_review"
+      },
+      "error": null
+    },
+    {
+      "step": 9,
+      "name": "Assign Incident to Department (Auto-Routing & Override)",
+      "status": "PASS",
+      "details": {
+        "department": "Roads & Infrastructure",
+        "deptId": "d1000000-0000-0000-0000-000000000001"
+      },
+      "error": null
+    },
+    {
+      "step": 10,
+      "name": "PostgreSQL Direct Assignment Persistence Verification",
+      "status": "PASS",
+      "details": {
+        "incidentCode": "INC-AUDIT-OFFICER-1431",
+        "departmentId": "d1000000-0000-0000-0000-000000000001"
+      },
+      "error": null
+    },
+    {
+      "step": 11,
+      "name": "Incident Priority Update (Critical Escalation)",
+      "status": "PASS",
+      "details": {
+        "priority": "Critical"
+      },
+      "error": null
+    },
+    {
+      "step": 12,
+      "name": "Incident Status Transition (Pending -> InProgress)",
+      "status": "PASS",
+      "details": {
+        "status": "InProgress",
+        "stage": 2
+      },
+      "error": null
+    },
+    {
+      "step": 13,
+      "name": "Person 3 Predictive Risk Scoring & PostgreSQL Update",
+      "status": "PASS",
+      "details": {
+        "riskTier": "MODERATE PROPAGATION RISK",
+        "probability": 0.472
+      },
+      "error": null
+    },
+    {
+      "step": 14,
+      "name": "Person 3 Cascading Impact Propagation Tree",
+      "status": "PASS",
+      "details": {
+        "threatLevel": "CRITICAL CASCADE DANGER",
+        "totalConsequences": 5
+      },
+      "error": null
+    },
+    {
+      "step": 15,
+      "name": "Person 3 Geospatial DBSCAN Hotspot Clustering",
+      "status": "PASS",
+      "details": {
+        "clustersFound": 3,
+        "algorithm": "DBSCAN (Haversine Metric)"
+      },
+      "error": null
+    },
+    {
+      "step": 16,
+      "name": "Person 3 What-If Scenario Simulation on Live Incident",
+      "status": "PASS",
+      "details": {
+        "simulationId": "SIM-1793681433",
+        "riskDirection": "INCREASED"
+      },
+      "error": null
+    },
+    {
+      "step": 17,
+      "name": "Person 3 Preventive Action Recommendations",
+      "status": "PASS",
+      "details": {
+        "actionsCount": 1
+      },
+      "error": null
+    },
+    {
+      "step": 18,
+      "name": "Person 3 Weather Risk Intelligence & Multiplier",
+      "status": "PASS",
+      "details": {
+        "threatLevel": "AMBER WARNING",
+        "riskMultiplier": 1.6
+      },
+      "error": null
+    },
+    {
+      "step": 19,
+      "name": "Officer Resolution Submission & Certification",
+      "status": "PASS",
+      "details": {
+        "status": "Resolved",
+        "resolutionDescription": "Pothole filled with hot mix asphalt, vibratory rolled, and sealed. Road safe for traffic."
+      },
+      "error": null
+    },
+    {
+      "step": 20,
+      "name": "Road Repair AI Verification (Before vs After Evidence)",
+      "status": "PASS",
+      "details": {
+        "status": "needs_manual_review",
+        "status_label": "Needs Manual Review"
+      },
+      "error": null
+    },
+    {
+      "step": 21,
+      "name": "Final Incident State & PostgreSQL Persistence Verified",
+      "status": "PASS",
+      "details": {
+        "incidentCode": "INC-AUDIT-OFFICER-1431",
+        "status": "Resolved",
+        "departmentId": "d1000000-0000-0000-0000-000000000001",
+        "resolutionDescription": "Pothole filled with hot mix asphalt, vibratory rolled, and sealed. Road safe for traffic."
+      },
+      "error": null
+    },
+    {
+      "step": 22,
+      "name": "Frontend Route & Vite Reverse Proxy Integrity",
+      "status": "PASS",
+      "details": {
+        "home": 200,
+        "officerDashboard": 200,
+        "incidentManagement": 200
+      },
+      "error": null
+    },
+    {
+      "step": 23,
+      "name": "Person 3 Urban Infrastructure Relationship Graph & Root-Cause Topology",
+      "status": "PASS",
+      "details": {
+        "targetIncident": "INC-AUDIT-OFFICER-1431",
+        "connectedNeighbors": 3,
+        "graphNodes": 130
+      },
+      "error": null
+    },
+    {
+      "step": 24,
+      "name": "Cascading Risk Simulation Rerun with Telemetry Controls",
+      "status": "PASS",
+      "details": {
+        "overallThreat": "CRITICAL CASCADE DANGER",
+        "totalConsequences": 5,
+        "weatherAmplified": true
+      },
+      "error": null
+    }
+  ]
+}

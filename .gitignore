@@ -1,0 +1,93 @@
+# ==============================================================================
+# CivicOS — Unified Root .gitignore
+# ==============================================================================
+
+# Node.js & Frontend dependencies & builds
+node_modules/
+dist/
+dist-ssr/
+*.local
+.pnp
+.pnp.js
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Python & Virtual Environments
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# Environment Variables & Secrets (CRITICAL: NEVER COMMIT)
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.pem
+*.key
+*.cert
+*.id_rsa
+
+# Local Database & Storage
+postgres_data/
+postgres_runner/node_modules/
+uploads/evidence/*
+!uploads/evidence/.gitkeep
+*.sqlite
+*.sqlite3
+
+# Ultralytics & AI Execution Caches
+.cache/
+runs/
+*.onnx
+CivicOS/runs/
+CivicOS/.cache/
+CivicOS/labels/
+
+# Editor & OS Artifacts
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+*.bak
+*`
+
+# Test artifacts
+scratch/
+all_four_e2e_results.json
+civicos_incidents_backup_*.json
+full_civicos_workflow_results.json
+p3_feature_audit_results.json

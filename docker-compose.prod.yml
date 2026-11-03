@@ -1,0 +1,93 @@
+# ==============================================================================
+# CivicOS — Production Multi-Container Docker Compose Blueprint
+# ==============================================================================
+
+version: '3.8'
+
+services:
+  # 1. Authoritative PostgreSQL Database
+  db:
+    image: postgres:16-alpine
+    container_name: civicos-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-civicos_secure_pass_2026}
+      POSTGRES_DB: ${POSTGRES_DB:-civicos}
+    volumes:
+      - civicos_postgres_prod:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d civicos"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - civicos-network
+
+  # 2. Person 4: Core Express & Prisma Backend
+  backend:
+    build:
+      context: ./backend/backend
+      dockerfile: Dockerfile
+    container_name: civicos-backend
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      PORT: 5000
+      NODE_ENV: production
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-postgres}:${POSTGRES_PASSWORD:-civicos_secure_pass_2026}@db:5432/${POSTGRES_DB:-civicos}?schema=public"
+      FRONTEND_ORIGIN: "${FRONTEND_ORIGIN:-http://localhost:5173,http://localhost:3000}"
+      PERSON2_AI_URL: "http://ai_engine:8000"
+      PERSON3_PREDICTIVE_URL: "http://predictive_engine:8001"
+      JWT_SECRET: "${JWT_SECRET:-civicos_super_secret_jwt_key_production_2026}"
+      STORAGE_PROVIDER: "${STORAGE_PROVIDER:-local}"
+      UPLOAD_DIR: "./uploads"
+    volumes:
+      - civicos_evidence_uploads:/app/uploads
+    ports:
+      - "5000:5000"
+    networks:
+      - civicos-network
+
+  # 3. Person 2: AI Computer Vision Microservice (YOLO11)
+  ai_engine:
+    build:
+      context: ./CivicOS
+      dockerfile: Dockerfile
+    container_name: civicos-ai-engine
+    restart: unless-stopped
+    environment:
+      FASTAPI_PORT: 8000
+      ACTIVE_MODEL_KEY: "v1_3class"
+      CIVICOS_REQUIRE_AUTH: "false"
+    ports:
+      - "8000:8000"
+    networks:
+      - civicos-network
+
+  # 4. Person 3: Predictive Intelligence Engine
+  predictive_engine:
+    build:
+      context: ./CivicOS_Person3/CivicOS_Person3
+      dockerfile: Dockerfile
+    container_name: civicos-predictive-engine
+    restart: unless-stopped
+    environment:
+      PORT: 8001
+      CORS_ORIGINS: "*"
+    ports:
+      - "8001:8001"
+    networks:
+      - civicos-network
+
+networks:
+  civicos-network:
+    driver: bridge
+
+volumes:
+  civicos_postgres_prod:
+  civicos_evidence_uploads:
